@@ -3,11 +3,17 @@
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~ngx-toastr/toastr';
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #fefefe; padding: 0; }
+body {
+     margin: 0;
+     font-family: Roboto, "Helvetica Neue", sans-serif; 
+     background-color: #fefefe; 
+     padding: 0; 
+    }
 
 .default-padding {
-    padding: 24px !important;
+    padding: 28px 24px !important;
 }
 .padding-x {
 padding: 0px 24px !important; 

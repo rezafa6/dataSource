@@ -1,69 +1,77 @@
-
 <div class="container content-wrapper bg-white shadow rounded">
 
-    <!-- table header -->
-    
-   <div class="table-header d-flex align-items-center justify-content-between">
-   <h1> Data Source Table CRUD </h1>
-  
-   <button mat-flat-button color="primary">Add New +</button>
-   </div>
-  
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <!-- table body -->
-            <table class="table table-striped ">
-              <!-- table col labels -->
-                <thead>
-                    <tr>
-                        <th>ID</th>					
-                        <th>Description</th>
-                        <th>Method</th>
-                        <th>Route</th>
-                        <th>Enable</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <!-- table info -->
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Michael Holz</td>
-                        <td>04/10/2013</td>                        
-                        <td>Admin</td>
-                        <td><span class="enable-status text-success">&bull;</span> Active</td>
-                        <!-- table actions -->
-                        <td class="d-flex">
-                          <button matTooltip="delete item" mat-icon-button color="accent" aria-label="Example icon button with a home icon">
-                            <mat-icon>delete</mat-icon>
-                          </button>
-                          <button matTooltip="edit item" mat-icon-button color="primary" aria-label="Example icon button with a home icon">
-                            <mat-icon>edit</mat-icon>
-                          </button>
-                        </td>
-                    </tr>
-  
-                    <tr>
-                      <td>1</td>
-                      <td>Michael Holz</td>
-                      <td>04/10/2013</td>                        
-                      <td>Admin</td>
-                      <td><span class="enable-status text-success">&bull;</span> Active</td>
-                      <td>
-                        <button mat-icon-button color="accent" aria-label="Example icon button with a home icon">
-                          <mat-icon>delete</mat-icon>
-                        </button>
-                          <button>edit</button>
-                      </td>
-                  </tr>
-  
-                </tbody>
-            </table>
-        </div>
-    </div>        
-  </div>     
-  
-  
-  
-  <router-outlet></router-outlet>
-  
+  <!-- table header -->
+
+  <div class="table-header d-flex align-items-center justify-content-between">
+    <h1 class="text-white"> Data Source Table </h1>
+    <!-- toggle panel btn -->
+    <button mat-raised-button matTooltip="Add new item" (click)="addNewItem()">
+      {{tableAction ? 'Close ' : ' Add New +' }}
+    </button>
+  </div>
+
+
+  <!-- add and edit panel  -->
+  <div class="table-action-wrapper overflow-hidden" [ngStyle]="{'height' : tableAction ? '250px' : '0px'}">
+    <app-table-actions></app-table-actions>
+  </div>
+
+
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <!-- table body -->
+      <table class="table table-striped ">
+        <!-- table col labels -->
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Method</th>
+            <th>Route</th>
+            <th>Enable</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <!-- table info -->
+        <tbody>
+          <tr *ngFor="let item of dataSource">
+
+            <!-- id and selct box -->
+            <td>
+              <div class="d-flex align-items-center ">
+                <mat-checkbox class="position-relative" [(ngModel)]="item.isSelected" style="right: 6px;"
+                  color="primary"></mat-checkbox>
+                {{item.Id}}
+              </div>
+            </td>
+
+            <td>{{item.Description}}</td>
+            <td>{{item.Method}}</td>
+            <td>{{item.Route}}</td>
+            <td>
+              <span class="enable-status" [ngClass]="[item.IsEnabled ? 'text-success' : 'text-danger' ]">&bull;</span>
+              {{item.IsEnabled ? 'Enabled' : 'Disabled'}}
+            </td>
+
+            <!-- table actions -->
+            <td class="d-flex">
+              <button matTooltip="Delete item" mat-icon-button color="accent"
+                aria-label="Example icon button with a home icon">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button matTooltip="Edit item" mat-icon-button color="primary"
+                aria-label="Example icon button with a home icon">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<router-outlet></router-outlet>

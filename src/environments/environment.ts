@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseURL: 'http://51.89.107.228:1376/ui/dataservice'
 };
 
 /*
