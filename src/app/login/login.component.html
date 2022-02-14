@@ -1,0 +1,53 @@
+<div class="login-wrapper d-flex justify-content-center align-items-center">
+
+    <!-- login card -->
+    <div class="col-lg-3 default-padding shadow-lg rounded login-card">
+        <!-- login title -->
+        <h3 class="text-center text-white"> Enter Username And Password To Login </h3>
+
+        <!-- login form , inputs , title -->
+        <div class="login-form">
+            <form autocomplete="off" [formGroup]="form">
+                <!-- username input and validaton messages -->
+                <div class="inner-input-wrapper">
+                    <mat-form-field class="w-100 padding-x">
+                        <mat-label>Username</mat-label>
+                        <input matInput class="text-white" autocomplete="off" formControlName="username">
+                    </mat-form-field>
+
+                    <!-- validation handling -->
+                    <div *ngIf="form.get('username')?.invalid &&(form.get('username')?.touched || hasError)">
+                        <!-- required error text -->
+                        <span 
+                        *ngIf="form.get('username')?.hasError('required')"
+                         class="text-warning"> 
+                         Username is Required !
+                        </span>
+
+                        <!-- min length error text -->
+                        <span *ngIf="form.get('username')?.touched && form.get('username')?.errors?.minlength"
+                            class="text-warning padding-x"> The UserName must be more than 3 letters
+                        </span>
+                        <!-- username is wrong error text -->
+                        <span class="text-warning  padding-x" *ngIf="isAdmin"> Username is wrong </span>
+                    </div>
+                </div>
+
+                <!-- password input and validaton messages -->
+                <div class="inner-input-wrapper">
+                    <mat-form-field class="w-100 padding-x ">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" formControlName="password">
+                    </mat-form-field>
+                </div>
+
+                <!-- submit button -->
+                <div class="default-padding w-100">
+                    <button mat-flat-button type="submit" class="position-relative w-100" color="primary">Enter</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>

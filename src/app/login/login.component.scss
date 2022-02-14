@@ -1,0 +1,72 @@
+.login-wrapper {
+    height: 100vh;
+    background-image: url('../../assets/img/move-bg.jpg');
+    animation: 400s movebg infinite;
+    
+    .login-card {
+      h3 {
+          cursor: default;
+      }
+        backdrop-filter: blur(10.3px);
+        -webkit-backdrop-filter: blur(10.3px);
+        background: rgba(176, 100, 226, 0.6);
+        input {
+            caret-color: #fff;
+        }
+        .mat-form-field.mat-focused .mat-form-field-ripple {
+            background-color: #fff !important;
+          }
+          // custom effect color after focus on input (placeholder)
+          .mat-form-field.mat-focused .mat-form-field-label {
+              color: #fff !important;
+          }
+          //   custom placeholder color
+          .mat-form-field-label {
+              color: #fff ;
+          }
+         // custom underline color
+          .mat-form-field-appearance-legacy .mat-form-field-underline {
+              background-color: #ccc !important; 
+          }
+    }
+
+    .login-form {
+        // button {
+        //     background-color: #69f0ae;
+        // }
+        button::after {
+            position: absolute;
+            background-color: #fff;
+            top: 0;
+            right: 0;
+            width: 0px;height: 100%;
+            content: '';
+            background-image: url('../../assets/icons/enter.png');
+            background-size: 32px;
+            background-position: center 2.3px;
+            background-repeat: no-repeat;
+            transition: 0.1s;
+            border-radius: 0 0.25rem 0.25rem 0;
+        }
+        button:hover:after {
+            width: 64px;
+        }
+    }
+    .inner-input-wrapper {
+        height: 110px;
+    }
+}
+
+@-webkit-keyframes movebg {
+    from{ background-position: 0%;}
+    to {background-position: 500%;}
+}
+@keyframes movebg {
+     0%{ background-position: 0; }
+    100% { background-position: 1000%;}
+}
+
+
+.mat-form-field.mat-form-field-invalid .mat-form-field-ripple, .mat-form-field.mat-form-field-invalid .mat-form-field-ripple.mat-accent {
+    background-color: #FFC107;
+}

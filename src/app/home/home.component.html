@@ -1,0 +1,69 @@
+
+<div class="container content-wrapper bg-white shadow rounded">
+
+    <!-- table header -->
+    
+   <div class="table-header d-flex align-items-center justify-content-between">
+   <h1> Data Source Table CRUD </h1>
+  
+   <button mat-flat-button color="primary">Add New +</button>
+   </div>
+  
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <!-- table body -->
+            <table class="table table-striped ">
+              <!-- table col labels -->
+                <thead>
+                    <tr>
+                        <th>ID</th>					
+                        <th>Description</th>
+                        <th>Method</th>
+                        <th>Route</th>
+                        <th>Enable</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <!-- table info -->
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Michael Holz</td>
+                        <td>04/10/2013</td>                        
+                        <td>Admin</td>
+                        <td><span class="enable-status text-success">&bull;</span> Active</td>
+                        <!-- table actions -->
+                        <td class="d-flex">
+                          <button matTooltip="delete item" mat-icon-button color="accent" aria-label="Example icon button with a home icon">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                          <button matTooltip="edit item" mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                        </td>
+                    </tr>
+  
+                    <tr>
+                      <td>1</td>
+                      <td>Michael Holz</td>
+                      <td>04/10/2013</td>                        
+                      <td>Admin</td>
+                      <td><span class="enable-status text-success">&bull;</span> Active</td>
+                      <td>
+                        <button mat-icon-button color="accent" aria-label="Example icon button with a home icon">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                          <button>edit</button>
+                      </td>
+                  </tr>
+  
+                </tbody>
+            </table>
+        </div>
+    </div>        
+  </div>     
+  
+  
+  
+  <router-outlet></router-outlet>
+  
