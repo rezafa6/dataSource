@@ -29,30 +29,30 @@ export class LoginComponent implements OnInit {
   }
   initForm() {
     this.form = new FormGroup({
-      username: new FormControl('' , [Validators.required , Validators.minLength(3)]),
-      password: new FormControl('' , [Validators.required]),
+      username: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      password: new FormControl('', [Validators.required]),
     })
   }
 
 
   submit() {
-    if(!this.isUsernameAndPassTrue() || this.form.invalid ) {
+    if (!this.isUsernameAndPassTrue() || this.form.invalid) {
       this.hasError = true;
       return
     }
 
     else {
-      this.toastr.success('You entered', 'Successfull ' ,{timeOut: 2000});
-     setTimeout(() => {
-       this.globalService.changeLoginState(true)
-      this.router.navigateByUrl('home')
-     }, 500);
+      this.toastr.success('You entered', 'Successfull ', { timeOut: 2000 });
+      setTimeout(() => {
+        this.globalService.changeLoginState(true)
+        this.router.navigateByUrl('home')
+      }, 500);
     }
   }
 
   isUsernameAndPassTrue() {
-    if(this.form.get('username')?.value != 'admin1') { this.checkAdminName = true } else {this.checkAdminName = false}
-    if(this.form.get('password')?.value != '12345') { this.checkPassword = true } else {this.checkPassword = false}
-    return this.form.get('username')?.value == 'admin1' && this.form.get('password')?.value == '12345'
+    if (this.form.get('username')?.value != 'admin1') { this.checkAdminName = true } else { this.checkAdminName = false }
+    if (this.form.get('password')?.value != '12345') { this.checkPassword = true } else { this.checkPassword = false }
+    return (this.form.get('username')?.value == 'admin1') && (this.form.get('password')?.value == '12345')
   }
 }

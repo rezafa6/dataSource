@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { GlobalService } from '../services/global-service';
 import { DateSourceService } from '../services/http-service';
+import { TableActionsComponent } from './table-actions/table-actions.component';
 
 @Component({
   selector: 'app-home',
@@ -12,11 +13,13 @@ import { DateSourceService } from '../services/http-service';
   providers: [DateSourceService]
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('actionRef')  actionTableMethods !: TableActionsComponent 
   loginState: boolean = false;
   tableAction: boolean = false;
   dataSource: any[] = [];
   loading: boolean = false;
-  editMode: boolean = false
+  editMode: boolean = false;
+  itemToEdit: any;
   constructor(
     private globalService: GlobalService,
     private dataSourceService: DateSourceService,
@@ -35,7 +38,6 @@ export class HomeComponent implements OnInit {
       res => {
         let _data: any = res;
         this.dataSource = _data.result;
-        console.log(this.dataSource);
       },
       err => { this.toastr.error('falid to get data') }
     ).finally(() => {
@@ -43,24 +45,24 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  addNewItem() {
+  toggleActionPanel() {
     this.tableAction = !this.tableAction;
     let panelElm = document.getElementById('panelElm') as HTMLDivElement;
     if (this.tableAction) {
-      panelElm.style.maxHeight = panelElm.scrollHeight + 'px';
+      panelElm.style.maxHeight = panelElm.scrollHeight + 100 + 'px';
     } else {
+      this.editMode = false
       panelElm.style.maxHeight = '0';
     }
   }
 
   checkUserLoginState() {
     this.globalService.currentLoginState.subscribe(loginState => this.loginState = loginState)
-
-    // if(!this.loginState) {
-    //   this.router.navigateByUrl('/')
-    // }
+    if(!this.loginState) {
+      this.router.navigateByUrl('/')
+    }
   }
-
+  // data comes from table-action-component.ts by an EventEmitter
   getNewItem(data: any) {
     data.IsEnabled = true;
     // generat id for new item
@@ -68,7 +70,20 @@ export class HomeComponent implements OnInit {
     data.Id = generatID;
     //add item to the end of table
     this.dataSource.push(data);
-    this.tableAction = false
+   this.toggleActionPanel()
+  }
+  // data comes from table-action-component.ts by an EventEmitter
+  getEditedItem(data: any) {
+    this.dataSource.forEach((item => {
+      if(item.Id == data.Id) {
+        item.Id = data.Id ;
+        item.Description =data.Description ;
+        item.IsEnabled = data.IsEnabled;
+        item.Method =data.Method ;
+        item.Route = data.Route;
+      }
+    }))
+    this.toggleActionPanel()
   }
 
   deleteItem(item: any) {
@@ -111,14 +126,17 @@ export class HomeComponent implements OnInit {
 
 
   editItem(item: any) {
-    // open panel
     if (!this.tableAction) {
-      this.addNewItem();
-    } else {
       this.editMode = true
-      window.scrollTo(0, 0)
-    }
-
+      this.toggleActionPanel();
+    } 
+      this.editMode = true
+      window.scrollTo(0, 0);
+      this.actionTableMethods.turnToEditMode()
+      setTimeout(() => {
+        this.actionTableMethods.initForms()
+      },);
+      this.itemToEdit = item;
   }
 
 }

@@ -1,6 +1,5 @@
 <div>
-    <form class="d-flex flex-wrap action-form"
-     [formGroup]="addForm" (ngSubmit)="addNewItem()" autocomplete="off">
+    <form class="d-flex flex-wrap action-form" [formGroup]="addForm" (ngSubmit)="addNewItem()" autocomplete="off">
 
         <div class="form-group col-lg-4 default-padding">
             <label for="description" class="text-white">Description</label>
@@ -31,27 +30,18 @@
             </div>
         </div>
 
-        <div class="form-group col-lg-4 default-padding">
-            <label for="id" class="text-white">Id</label>
-            <input formControlName='route' type="text" class="form-control" id="route" placeholder="Enter Id">
-
-            <div *ngIf="addForm.get('id')?.invalid && (addForm.get('id')?.touched || showError)">
-                <span class="text-warning"> route is required </span>
+        <div class="form-group col-lg-4 default-padding d-flex justify-content-center align-items-center"
+            *ngIf="editMode">
+            <div>
+                <mat-checkbox [(ngModel)]="enableState" [ngModelOptions]="{standalone: true}" color="accent"
+                    class="text-white">isEnable
+                </mat-checkbox>
             </div>
         </div>
 
-        <div class="form-group col-lg-4 default-padding" style="display: flex; align-items: center;">
-        <div>
-            <mat-checkbox [(ngModel)]="enableState" 
-            color="accent" class="text-white">IsEnabled</mat-checkbox>
-        </div>
-        </div>
-
-      
-
         <!-- submit btn -->
         <div class="default-padding">
-            <button mat-raised-button matTooltip="Add new item " type="submit">
+            <button mat-raised-button matTooltip="Add new item " type="submit" [disabled]="loading">
                 {{loading ? 'Please Wait ...' : 'Submit New Item'}}
                 <div class="spinner-border " role="status" *ngIf="loading"></div>
             </button>

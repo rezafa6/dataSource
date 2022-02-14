@@ -5,7 +5,7 @@
   <div class="table-header d-flex align-items-center justify-content-between">
     <h1 class="text-white"> Data Source Table </h1>
     <!-- toggle panel btn -->
-    <button mat-raised-button matTooltip="Add new item" (click)="addNewItem()">
+    <button mat-raised-button matTooltip="Add new item" (click)="toggleActionPanel()">
       {{tableAction ? 'Close ' : ' Add New +' }}
     </button>
   </div>
@@ -13,8 +13,12 @@
   <!-- add item panel  -->
   <div class="table-action-wrapper overflow-hidden" id="panelElm">
     <app-table-actions 
+    #actionRef
     [editMode] = 'editMode'
-    (sendDataToTable)="getNewItem($event)"></app-table-actions>
+    [itemToEdit] ="itemToEdit"
+    (sendDataToTable)="getNewItem($event)"
+    (setEditedItemForTable)="getEditedItem($event)"
+    ></app-table-actions>
   </div>
 
   <div class="table-responsive">
