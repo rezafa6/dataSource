@@ -10,12 +10,12 @@
     </button>
   </div>
 
-
-  <!-- add and edit panel  -->
-  <div class="table-action-wrapper overflow-hidden" [ngStyle]="{'height' : tableAction ? '250px' : '0px'}">
-    <app-table-actions></app-table-actions>
+  <!-- add item panel  -->
+  <div class="table-action-wrapper overflow-hidden" id="panelElm">
+    <app-table-actions 
+    [editMode] = 'editMode'
+    (sendDataToTable)="getNewItem($event)"></app-table-actions>
   </div>
-
 
   <div class="table-responsive">
     <div class="table-wrapper">
@@ -39,8 +39,6 @@
             <!-- id and selct box -->
             <td>
               <div class="d-flex align-items-center ">
-                <mat-checkbox class="position-relative" [(ngModel)]="item.isSelected" style="right: 6px;"
-                  color="primary"></mat-checkbox>
                 {{item.Id}}
               </div>
             </td>
@@ -55,11 +53,15 @@
 
             <!-- table actions -->
             <td class="d-flex">
+              <!-- delete -->
               <button matTooltip="Delete item" mat-icon-button color="accent"
+              (click)="deleteItem(item)"
                 aria-label="Example icon button with a home icon">
                 <mat-icon>delete</mat-icon>
               </button>
+              <!-- edit -->
               <button matTooltip="Edit item" mat-icon-button color="primary"
+              (click)="editItem(item)"
                 aria-label="Example icon button with a home icon">
                 <mat-icon>edit</mat-icon>
               </button>
@@ -73,5 +75,4 @@
 </div>
 
 
-
-<router-outlet></router-outlet>
+<app-loading *ngIf="loading"></app-loading>

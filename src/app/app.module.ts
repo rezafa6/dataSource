@@ -10,6 +10,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { TableActionsComponent } from './home/table-actions/table-actions.component';
+import { LoadingComponent } from './loading/loading.component';
+
 // material ui modules
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -20,6 +22,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 // other modules
 import { ToastrModule } from 'ngx-toastr';
 
+
 const materialModuls = [MatInputModule, MatFormFieldModule, MatButtonModule, MatIconModule,
   MatTooltipModule , MatCheckboxModule]
 @NgModule({
@@ -27,7 +30,8 @@ const materialModuls = [MatInputModule, MatFormFieldModule, MatButtonModule, Mat
     AppComponent,
     HomeComponent,
     LoginComponent,
-    TableActionsComponent
+    TableActionsComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,

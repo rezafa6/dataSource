@@ -1,28 +1,63 @@
 <div>
-    <form class="d-flex flex-wrap action-form">
+    <form class="d-flex flex-wrap action-form"
+     [formGroup]="addForm" (ngSubmit)="addNewItem()" autocomplete="off">
 
         <div class="form-group col-lg-4 default-padding">
             <label for="description" class="text-white">Description</label>
-            <input type="text" class="form-control" id="description" placeholder="Enter Description">
+            <input formControlName='description' type="text" class="form-control" id="description"
+                placeholder="Enter Description">
+
+            <div *ngIf="addForm.get('description')?.invalid && (addForm.get('description')?.touched || showError)">
+                <span class="text-warning"> description is required </span>
+            </div>
         </div>
 
         <div class="form-group col-lg-4 default-padding">
             <label for="method" class="text-white">Method</label>
-            <input type="text" class="form-control" id="method" placeholder="Enter Method">
+
+            <input formControlName='method' type="text" class="form-control" id="method" placeholder="Enter Method">
+
+            <div *ngIf="addForm.get('method')?.invalid && (addForm.get('method')?.touched || showError)">
+                <span class="text-warning"> method is required </span>
+            </div>
         </div>
 
         <div class="form-group col-lg-4 default-padding">
             <label for="route" class="text-white">Route</label>
-            <input type="text" class="form-control" id="route" placeholder="Enter Route">
+            <input formControlName='route' type="text" class="form-control" id="route" placeholder="Enter Route">
+
+            <div *ngIf="addForm.get('route')?.invalid && (addForm.get('route')?.touched || showError)">
+                <span class="text-warning"> route is required </span>
+            </div>
         </div>
 
+        <div class="form-group col-lg-4 default-padding">
+            <label for="id" class="text-white">Id</label>
+            <input formControlName='route' type="text" class="form-control" id="route" placeholder="Enter Id">
 
-     <div class="default-padding">
+            <div *ngIf="addForm.get('id')?.invalid && (addForm.get('id')?.touched || showError)">
+                <span class="text-warning"> route is required </span>
+            </div>
+        </div>
 
-        <button mat-raised-button matTooltip="Add new item " >
-            Submit New Item   
+        <div class="form-group col-lg-4 default-padding" style="display: flex; align-items: center;">
+        <div>
+            <mat-checkbox [(ngModel)]="enableState" 
+            color="accent" class="text-white">IsEnabled</mat-checkbox>
+        </div>
+        </div>
+
+      
+
+        <!-- submit btn -->
+        <div class="default-padding">
+            <button mat-raised-button matTooltip="Add new item " type="submit">
+                {{loading ? 'Please Wait ...' : 'Submit New Item'}}
+                <div class="spinner-border " role="status" *ngIf="loading"></div>
             </button>
-     </div>
-    
+        </div>
+
     </form>
 </div>
+
+<app-loading *ngIf="loading"></app-loading>

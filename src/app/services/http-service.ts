@@ -16,12 +16,22 @@ export class DateSourceService {
         })
     }
 
-    addNew() {
-
+    addNew(data: any) {
+        return new Promise((resolve , reject) => {
+            this.http.post(this.baseURL , data).subscribe(
+                res => {resolve(res)},
+                err => {reject(err)}
+            )
+        })
     }
 
-    delete() {
-
+    deleteItem(data: any) {
+        return new Promise((resolve , reject) => {
+            this.http.delete(this.baseURL , data).subscribe(
+                res => {resolve(res)},
+                err => {reject(err)}
+            )
+        })
     }
 
     edit() {
