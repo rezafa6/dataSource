@@ -38,3 +38,7 @@ padding: 0px 24px !important;
     left: 0;
     z-index: 2;
 }
+input , select {
+    outline: none !important;
+    box-shadow: none !important;
+}

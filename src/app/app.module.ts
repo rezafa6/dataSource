@@ -19,12 +19,14 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
 // other modules
 import { ToastrModule } from 'ngx-toastr';
+import { SearchPipe } from './pipe/search.pipe';
 
 
 const materialModuls = [MatInputModule, MatFormFieldModule, MatButtonModule, MatIconModule,
-  MatTooltipModule , MatCheckboxModule]
+  MatTooltipModule , MatCheckboxModule , MatSelectModule]
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +34,7 @@ const materialModuls = [MatInputModule, MatFormFieldModule, MatButtonModule, Mat
     LoginComponent,
     TableActionsComponent,
     LoadingComponent,
+    SearchPipe,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +43,7 @@ const materialModuls = [MatInputModule, MatFormFieldModule, MatButtonModule, Mat
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+  
     ToastrModule.forRoot(),
     // material
     ...materialModuls

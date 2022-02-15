@@ -12,13 +12,30 @@
 
   <!-- add item panel  -->
   <div class="table-action-wrapper overflow-hidden" id="panelElm">
-    <app-table-actions 
-    #actionRef
-    [editMode] = 'editMode'
-    [itemToEdit] ="itemToEdit"
-    (sendDataToTable)="getNewItem($event)"
-    (setEditedItemForTable)="getEditedItem($event)"
-    ></app-table-actions>
+    <app-table-actions #actionRef [editMode]='editMode' [itemToEdit]="itemToEdit" (sendDataToTable)="getNewItem($event)"
+      (setEditedItemForTable)="getEditedItem($event)"></app-table-actions>
+  </div>
+
+  <!-- serach in table -->
+  <div class="d-flex flex-wrap justify-content-center">
+    <div class="col-lg-6 col-xs-12 default-padding">
+      <mat-form-field class="w-100">
+        <mat-label>Search...</mat-label>
+        <input matInput autocomplete="off" [(ngModel)]="searchValue">
+      </mat-form-field>
+    </div>
+
+    <!-- sort table -->
+    <div class="col-lg-6 col-md-12 default-padding">
+      <mat-form-field class="w-100">
+        <mat-label>Sort Table</mat-label>
+        <mat-select (selectionChange)="sort($event)">
+          <mat-option *ngFor="let sortType of sortTypes" [value]="sortType">
+            {{sortType}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
 
   <div class="table-responsive">
@@ -38,8 +55,7 @@
         </thead>
         <!-- table info -->
         <tbody>
-          <tr *ngFor="let item of dataSource">
-
+          <tr *ngFor="let item of dataToShow | searchFilter: searchValue">
             <!-- id and selct box -->
             <td>
               <div class="d-flex align-items-center ">
@@ -58,14 +74,12 @@
             <!-- table actions -->
             <td class="d-flex">
               <!-- delete -->
-              <button matTooltip="Delete item" mat-icon-button color="accent"
-              (click)="deleteItem(item)"
+              <button matTooltip="Delete item" mat-icon-button color="accent" (click)="deleteItem(item)"
                 aria-label="Example icon button with a home icon">
                 <mat-icon>delete</mat-icon>
               </button>
               <!-- edit -->
-              <button matTooltip="Edit item" mat-icon-button color="primary"
-              (click)="editItem(item)"
+              <button matTooltip="Edit item" mat-icon-button color="primary" (click)="editItem(item)"
                 aria-label="Example icon button with a home icon">
                 <mat-icon>edit</mat-icon>
               </button>

@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
     })
   }
 
-
   submit() {
     if (!this.isUsernameAndPassTrue() || this.form.invalid) {
       this.hasError = true;

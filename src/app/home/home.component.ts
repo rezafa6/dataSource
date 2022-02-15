@@ -1,30 +1,35 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { GlobalService } from '../services/global-service';
 import { DateSourceService } from '../services/http-service';
+import { SortService } from '../services/sort-service';
 import { TableActionsComponent } from './table-actions/table-actions.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [DateSourceService]
+  providers: [DateSourceService , SortService]
 })
 export class HomeComponent implements OnInit {
-  @ViewChild('actionRef')  actionTableMethods !: TableActionsComponent 
+  @ViewChild('actionRef')  actionTableMethods !: TableActionsComponent ;
+  sortTypes = ['Enabled Items' , 'Disabled Items' , 'A-Z' , 'Z-A' ];
   loginState: boolean = false;
   tableAction: boolean = false;
   dataSource: any[] = [];
+  dataToShow: any[] = []
   loading: boolean = false;
   editMode: boolean = false;
+  searchValue: string = ''
   itemToEdit: any;
   constructor(
     private globalService: GlobalService,
     private dataSourceService: DateSourceService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private sortService : SortService
   ) { }
 
   ngOnInit(): void {
@@ -38,22 +43,12 @@ export class HomeComponent implements OnInit {
       res => {
         let _data: any = res;
         this.dataSource = _data.result;
+        this.dataToShow = _data.result;
       },
       err => { this.toastr.error('falid to get data') }
     ).finally(() => {
       this.loading = false
     })
-  }
-
-  toggleActionPanel() {
-    this.tableAction = !this.tableAction;
-    let panelElm = document.getElementById('panelElm') as HTMLDivElement;
-    if (this.tableAction) {
-      panelElm.style.maxHeight = panelElm.scrollHeight + 100 + 'px';
-    } else {
-      this.editMode = false
-      panelElm.style.maxHeight = '0';
-    }
   }
 
   checkUserLoginState() {
@@ -66,15 +61,15 @@ export class HomeComponent implements OnInit {
   getNewItem(data: any) {
     data.IsEnabled = true;
     // generat id for new item
-    let generatID = parseInt(this.dataSource[this.dataSource.length - 1].Id) + 1;
+    let generatID = parseInt(this.dataToShow[this.dataToShow.length - 1].Id) + 1;
     data.Id = generatID;
     //add item to the end of table
-    this.dataSource.push(data);
+    this.dataToShow.push(data);
    this.toggleActionPanel()
   }
   // data comes from table-action-component.ts by an EventEmitter
   getEditedItem(data: any) {
-    this.dataSource.forEach((item => {
+    this.dataToShow.forEach((item => {
       if(item.Id == data.Id) {
         item.Id = data.Id ;
         item.Description =data.Description ;
@@ -85,7 +80,7 @@ export class HomeComponent implements OnInit {
     }))
     this.toggleActionPanel()
   }
-
+  
   deleteItem(item: any) {
     Swal.fire({
       showDenyButton: true,
@@ -105,8 +100,8 @@ export class HomeComponent implements OnInit {
         this.dataSourceService.deleteItem(body).then(
           res => {
             // delete from list
-            let index = this.dataSource.findIndex(data => data.Id == item.Id)
-            this.dataSource.splice(index, 1)
+            let index = this.dataToShow.findIndex(data => data.Id == item.Id)
+            this.dataToShow.splice(index, 1)
             Swal.fire({
               text: ' The item has been deleted !',
               icon: "success",
@@ -137,6 +132,43 @@ export class HomeComponent implements OnInit {
         this.actionTableMethods.initForms()
       },);
       this.itemToEdit = item;
+  }
+
+
+sort(event:any) {
+    this.dataToShow = this.dataSource
+
+    switch(event.value) {
+      case('Enabled Items') : 
+       this.dataToShow = this.sortService.onlyEnabled(this.dataToShow);
+       break;
+
+       case('Disabled Items') : 
+        this.dataToShow = this.sortService.onlyDisabled(this.dataToShow);
+       break;
+
+       case 'A-Z':
+         this.dataToShow = this.sortService.AZSort(this.dataToShow);
+         break;
+
+         case 'Z-A':
+          this.dataToShow = this.sortService.ZASort(this.dataToShow);
+          break;
+    
+      }
+    
+    
+}
+
+  toggleActionPanel() {
+    this.tableAction = !this.tableAction;
+    let panelElm = document.getElementById('panelElm') as HTMLDivElement;
+    if (this.tableAction) {
+      panelElm.style.maxHeight = panelElm.scrollHeight + 100 + 'px';
+    } else {
+      this.editMode = false
+      panelElm.style.maxHeight = '0';
+    }
   }
 
 }
