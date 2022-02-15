@@ -26,10 +26,14 @@ export class DateSourceService {
     }
 
     deleteItem(data: any) {
-        return new Promise((resolve , reject) => {
-            this.http.delete(this.baseURL , data).subscribe(
-                res => {resolve(res)},
-                err => {reject(err)}
+        return new Promise((resolve, reject) => {
+            // this.http.delete(this.baseURL , data).subscribe(
+            //     res => {resolve(res)},
+            //     err => {reject(err)}
+            // )
+            this.http.request('DELETE', this.baseURL, { "body": data }).subscribe(
+                res => { resolve(res) },
+                err => { reject(err) }
             )
         })
     }
